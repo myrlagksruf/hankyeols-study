@@ -1,12 +1,20 @@
-import { io } from 'socket.io-client';
+import { Manager } from 'socket.io-client';
 import './index.css';
 const $:typeof document.querySelector = document.querySelector.bind(document);
 
 const remoteView = $<HTMLVideoElement>('#remote');
 const selfView = $<HTMLVideoElement>('#self');
 
+const path = location.pathname.match(/\/proxy\/\d+/)?.[0] ?? '';
 
-const socket = io('/api');
+const origin = `${location.origin}${path}`;
+
+
+const manager = new Manager(origin, {
+    path: `${path}/socket.io`
+});
+
+const socket = manager.socket(`/api`);
 
 const constraints = {audio: true, video: true};
 const configuration = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]};

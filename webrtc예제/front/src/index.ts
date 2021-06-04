@@ -66,6 +66,7 @@ socket.on('desc', async e => {
         stream.getTracks().forEach((track) => {
             pc.addTrack(track, stream)
         });
+        selfView.srcObject = stream;
         await pc.setLocalDescription(await pc.createAnswer());
         const data = pc.localDescription.toJSON();
         socket.emit('desc', data);

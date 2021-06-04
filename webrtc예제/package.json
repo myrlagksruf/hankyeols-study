@@ -1,0 +1,11 @@
+{
+  "name": "webpack-ex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "concurrently \"cd front&&webpack -w\" \"cd back&&tsc -w\" \"cd back&&nodemon dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,12 @@
+video{
+    display: none;
+}
+#canCon{
+    position: relative;
+}
+canvas{
+    position: absolute;
+    left:0;
+    top:0;
+    transform: scale(-1, 1);
+}

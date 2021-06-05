@@ -6,25 +6,18 @@ import './index.css';
 const $:typeof document.querySelector = document.querySelector.bind(document);
 const $$:typeof document.querySelectorAll = document.querySelectorAll.bind(document);
 const video = $('video');
-
-const canvas = $<HTMLCanvasElement>('#canvas-video');
 const fanvas = $<HTMLCanvasElement>('#canvas-box');
 
-const ctx = canvas.getContext('2d');
 const ftx = fanvas.getContext('2d');
 let model:facemesh.FaceMesh = null;
 const size = 2;
 const ani = async () => {
-    if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+    if(fanvas.width !== video.videoWidth || fanvas.height !== video.videoHeight){
         fanvas.width = video.videoWidth;
         fanvas.height = video.videoHeight;
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     if(model){
-        const predictions = await model.estimateFaces(canvas);
+        const predictions = await model.estimateFaces(video);
         ftx.clearRect(0, 0, fanvas.width, fanvas.height);
         if (predictions.length > 0) {
             for (let i = 0; i < predictions.length; i++) {

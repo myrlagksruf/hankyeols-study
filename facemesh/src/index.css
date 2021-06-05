@@ -1,10 +1,7 @@
-video{
-    display: none;
-}
 #canCon{
     position: relative;
 }
-canvas{
+video, canvas{
     position: absolute;
     left:0;
     top:0;

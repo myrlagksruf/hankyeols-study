@@ -4,9 +4,9 @@ import fs from 'fs/promises';
 
 (async()=>{
     try{
-        await fs.access(path.resolve('..', 'file'));
+        await fs.access(path.resolve(__dirname, '..', 'file'));
     } catch(err){
-        await fs.mkdir(path.resolve('..', 'file'));
+        await fs.mkdir(path.resolve(__dirname, '..', 'file'));
     }
 })();
 

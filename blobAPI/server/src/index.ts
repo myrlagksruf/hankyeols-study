@@ -2,6 +2,14 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs/promises';
 
+(async()=>{
+    try{
+        await fs.access(path.resolve('..', 'file'));
+    } catch(err){
+        await fs.mkdir(path.resolve('..', 'file'));
+    }
+})();
+
 const app = express();
 
 const front = path.resolve(__dirname, '..', '..', 'front');

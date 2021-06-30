@@ -48,3 +48,11 @@ document.querySelector("#webgl-output").appendChild(renderer.domElement);
 
 // render the scene
 renderer.render(scene, camera);
+
+const main = (time:number) => {
+    sphere.position.set(10 * Math.cos(time / 1000), 5, 10 * Math.sin(time / 1000));
+    renderer.render(scene, camera);
+    requestAnimationFrame(main);
+}
+
+main(0);

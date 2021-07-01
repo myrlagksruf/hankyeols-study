@@ -44,96 +44,95 @@ export class MnistData {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const imgRequest = new Promise((resolve, reject) => {
-      img.crossOrigin = '';
-      img.onload = () => {
-        img.width = img.naturalWidth;
-        img.height = img.naturalHeight;
+        img.crossOrigin = '';
+        img.onload = () => {
+            img.width = img.naturalWidth;
+            img.height = img.naturalHeight;
 
-        const datasetBytesBuffer =
-            new ArrayBuffer(NUM_DATASET_ELEMENTS * IMAGE_SIZE * 4);
+            const datasetBytesBuffer = new ArrayBuffer(NUM_DATASET_ELEMENTS * IMAGE_SIZE * 4);
 
-        const chunkSize = 5000;
-        canvas.width = img.width;
-        canvas.height = chunkSize;
+            const chunkSize = 5000;
+            canvas.width = img.width;
+            canvas.height = chunkSize;
 
-        for (let i = 0; i < NUM_DATASET_ELEMENTS / chunkSize; i++) {
-          const datasetBytesView = new Float32Array(
-              datasetBytesBuffer, i * IMAGE_SIZE * chunkSize * 4,
-              IMAGE_SIZE * chunkSize);
-          ctx.drawImage(
-              img, 0, i * chunkSize, img.width, chunkSize, 0, 0, img.width,
-              chunkSize);
+            for (let i = 0; i < NUM_DATASET_ELEMENTS / chunkSize; i++) {
+                const datasetBytesView = new Float32Array(
+                    datasetBytesBuffer, i * IMAGE_SIZE * chunkSize * 4,
+                    IMAGE_SIZE * chunkSize);
+                ctx.drawImage(
+                    img, 0, i * chunkSize, img.width, chunkSize, 0, 0, img.width,
+                    chunkSize);
 
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-          for (let j = 0; j < imageData.data.length / 4; j++) {
-            // All channels hold an equal value since the image is grayscale, so
-            // just read the red channel.
-            datasetBytesView[j] = imageData.data[j * 4] / 255;
-          }
-        }
-        this.datasetImages = new Float32Array(datasetBytesBuffer);
+                for (let j = 0; j < imageData.data.length / 4; j++) {
+                    // All channels hold an equal value since the image is grayscale, so
+                    // just read the red channel.
+                    datasetBytesView[j] = imageData.data[j * 4] / 255;
+                }
+            }
+            this.datasetImages = new Float32Array(datasetBytesBuffer);
 
-        resolve();
-      };
-      img.src = MNIST_IMAGES_SPRITE_PATH;
+            resolve();
+        };
+        img.src = MNIST_IMAGES_SPRITE_PATH;
     });
 
-    const labelsRequest = fetch(MNIST_LABELS_PATH);
-    const [imgResponse, labelsResponse] =
-        await Promise.all([imgRequest, labelsRequest]);
+        const labelsRequest = fetch(MNIST_LABELS_PATH);
+        const [imgResponse, labelsResponse] =
+            await Promise.all([imgRequest, labelsRequest]);
 
-    this.datasetLabels = new Uint8Array(await labelsResponse.arrayBuffer());
+        this.datasetLabels = new Uint8Array(await labelsResponse.arrayBuffer());
 
-    // Slice the the images and labels into train and test sets.
-    this.trainImages =
-        this.datasetImages.slice(0, IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
-    this.testImages = this.datasetImages.slice(IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
-    this.trainLabels =
-        this.datasetLabels.slice(0, NUM_CLASSES * NUM_TRAIN_ELEMENTS);
-    this.testLabels =
-        this.datasetLabels.slice(NUM_CLASSES * NUM_TRAIN_ELEMENTS);
-  }
-
-  /**
-   * Get all training data as a data tensor and a labels tensor.
-   *
-   * @returns
-   *   xs: The data tensor, of shape `[numTrainExamples, 28, 28, 1]`.
-   *   labels: The one-hot encoded labels tensor, of shape
-   *     `[numTrainExamples, 10]`.
-   */
-  getTrainData() {
-    const xs = tf.tensor4d(
-        this.trainImages,
-        [this.trainImages.length / IMAGE_SIZE, IMAGE_H, IMAGE_W, 1]);
-    const labels = tf.tensor2d(
-        this.trainLabels, [this.trainLabels.length / NUM_CLASSES, NUM_CLASSES]);
-    return {xs, labels};
-  }
-
-  /**
-   * Get all test data as a data tensor and a labels tensor.
-   *
-   * @param {number} numExamples Optional number of examples to get. If not
-   *     provided,
-   *   all test examples will be returned.
-   * @returns
-   *   xs: The data tensor, of shape `[numTestExamples, 28, 28, 1]`.
-   *   labels: The one-hot encoded labels tensor, of shape
-   *     `[numTestExamples, 10]`.
-   */
-  getTestData(numExamples) {
-    let xs = tf.tensor4d(
-        this.testImages,
-        [this.testImages.length / IMAGE_SIZE, IMAGE_H, IMAGE_W, 1]);
-    let labels = tf.tensor2d(
-        this.testLabels, [this.testLabels.length / NUM_CLASSES, NUM_CLASSES]);
-
-    if (numExamples != null) {
-      xs = xs.slice([0, 0, 0, 0], [numExamples, IMAGE_H, IMAGE_W, 1]);
-      labels = labels.slice([0, 0], [numExamples, NUM_CLASSES]);
+        // Slice the the images and labels into train and test sets.
+        this.trainImages =
+            this.datasetImages.slice(0, IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
+        this.testImages = this.datasetImages.slice(IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
+        this.trainLabels =
+            this.datasetLabels.slice(0, NUM_CLASSES * NUM_TRAIN_ELEMENTS);
+        this.testLabels =
+            this.datasetLabels.slice(NUM_CLASSES * NUM_TRAIN_ELEMENTS);
     }
-    return {xs, labels};
-  }
+
+    /**
+     * Get all training data as a data tensor and a labels tensor.
+     *
+     * @returns
+     *   xs: The data tensor, of shape `[numTrainExamples, 28, 28, 1]`.
+     *   labels: The one-hot encoded labels tensor, of shape
+     *     `[numTrainExamples, 10]`.
+     */
+    getTrainData() {
+        const xs = tf.tensor4d(
+            this.trainImages,
+            [this.trainImages.length / IMAGE_SIZE, IMAGE_H, IMAGE_W, 1]);
+        const labels = tf.tensor2d(
+            this.trainLabels, [this.trainLabels.length / NUM_CLASSES, NUM_CLASSES]);
+        return {xs, labels};
+    }
+
+    /**
+     * Get all test data as a data tensor and a labels tensor.
+     *
+     * @param {number} numExamples Optional number of examples to get. If not
+     *     provided,
+     *   all test examples will be returned.
+     * @returns
+     *   xs: The data tensor, of shape `[numTestExamples, 28, 28, 1]`.
+     *   labels: The one-hot encoded labels tensor, of shape
+     *     `[numTestExamples, 10]`.
+     */
+    getTestData(numExamples) {
+        let xs = tf.tensor4d(
+            this.testImages,
+            [this.testImages.length / IMAGE_SIZE, IMAGE_H, IMAGE_W, 1]);
+        let labels = tf.tensor2d(
+            this.testLabels, [this.testLabels.length / NUM_CLASSES, NUM_CLASSES]);
+
+        if (numExamples != null) {
+        xs = xs.slice([0, 0, 0, 0], [numExamples, IMAGE_H, IMAGE_W, 1]);
+        labels = labels.slice([0, 0], [numExamples, NUM_CLASSES]);
+        }
+        return {xs, labels};
+    }
 }

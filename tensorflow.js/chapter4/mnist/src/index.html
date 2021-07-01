@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #train::after{
+            content: "세팅중...";
+        }
+        #but-con.load > #train::after{
+            content: "훈련하기"
+        }
+        #but-con.load > #train.loading::after{
+            content: "훈련중..."
+        }
+        input{
+            outline: none;
+        }
+        input:invalid{
+            border: 5px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="but-con">
+        <button id="train"></button>
+        <button id="save">현재 모델 저장하기</button>
+        <button id="load">모델 로드하기</button>
+    </div>
+    <div id="acc"></div>
+    <div id="epo"></div>
+</body>
+</html>

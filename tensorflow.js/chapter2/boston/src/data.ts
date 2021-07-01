@@ -13,6 +13,12 @@ export class Boston{
     static testTarget:tf.Tensor2D = null;
     static trainData:tf.Tensor2D = null;
     static trainTarget:tf.Tensor2D = null;
+    static trainFeatures:tf.Tensor2D = null;
+    static testFeatures:tf.Tensor2D = null;
+    static model:tf.Sequential = null;
+    static LEARNING_RATE = 0.001 as const;
+    static BATCH_SIZE = 128 as const;
+    static NUM_EPOCHS = 400 as const;
     constructor(){}
     static async load(){
         const arr:Promise<[strBoston ,tf.Tensor2D]>[] = [];
@@ -37,5 +43,54 @@ export class Boston{
         for(let i of brr){
             this[i[0]] = i[1];
         }
+
+        const { dataMean, dataStd } = this.determineMeanAndStddev(this.trainData);
+
+        this.trainFeatures = this.normalizeTensor(this.trainData, dataMean, dataStd);
+        this.testFeatures = this.normalizeTensor(this.testData, dataMean, dataStd);
+
+        this.trainFeatures.print();
+
+        const model = tf.sequential();
+        model.add(tf.layers.dense({ 
+            inputShape:[this.trainFeatures.shape[1]],
+            activation: 'sigmoid',
+            // kernelInitializer: 'leCunNormal',
+            units:64
+        }));
+        model.add(tf.layers.dense({
+            units:32,
+            activation: 'sigmoid',
+            // kernelInitializer: 'leCunNormal'
+        }));
+        model.add(tf.layers.dense({units:1}));
+        model.compile({
+            optimizer: tf.train.adam(this.LEARNING_RATE),
+            loss: 'meanSquaredError'
+        });
+        this.model = model;
+    }
+    static determineMeanAndStddev(data:tf.Tensor2D) {
+        const dataMean = data.mean<tf.Tensor1D>(0);
+        const diffFromMean = data.sub(dataMean);
+        const squaredDiffFromMean = diffFromMean.square();
+        const variance = squaredDiffFromMean.mean<tf.Tensor1D>(0);
+        const dataStd = variance.sqrt();
+        return {dataMean, dataStd};
+    }
+    static normalizeTensor(data:tf.Tensor2D, dataMean:tf.Tensor1D, dataStd:tf.Tensor1D) {
+        return data.sub<tf.Tensor2D>(dataMean).div<tf.Tensor2D>(dataStd);
+    }
+    static async train(){
+        const model = this.model;
+        await model.fit(this.trainFeatures, this.trainTarget, {
+            batchSize: this.BATCH_SIZE,
+            epochs: this.NUM_EPOCHS,
+            callbacks: {
+                onEpochEnd: async (epoch, logs) => {
+                    console.log(logs.loss);
+                }
+            }
+        });
     }
 }

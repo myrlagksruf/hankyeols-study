@@ -6,18 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        button::after{
+        #train::after{
             content: "세팅중...";
         }
-        button.load::after{
+        #but-con.load > #train::after{
             content: "훈련하기"
         }
-        button.loading::after{
+        #but-con.load > #train.loading::after{
             content: "훈련중..."
+        }
+        input{
+            outline: none;
+        }
+        input:invalid{
+            border: 5px solid red;
         }
     </style>
 </head>
 <body>
-    <button></button>
+    <input type="text" required pattern="\d+(\.\d+)?(,\d+(\.\d+)?){11}">
+    <div id="but-con">
+        <button id="train"></button>
+        <button id="save">현재 모델 저장하기</button>
+        <button id="load">모델 로드하기</button>
+    </div>
 </body>
 </html>

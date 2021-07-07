@@ -58,6 +58,7 @@ export default class Mnist{
 
         this.tensorImage = tf.tensor4d(datasetImage, [datasetImage.length / this.SIZE, this.H, this.W, 1]);
         this.tensorLabel = tf.tensor2d(datasetLabel, [datasetLabel.length / this.NUM_CLASSES, this.NUM_CLASSES]);
+        
         const model = tf.sequential();
         model.add(tf.layers.conv2d({
             inputShape:[Mnist.H, Mnist.W, 1],
@@ -65,7 +66,6 @@ export default class Mnist{
             filters:16,
             activation:'relu'
         }));
-        
         model.add(tf.layers.maxPooling2d({poolSize:2, strides:2}));
         model.add(tf.layers.conv2d({kernelSize:3, filters: 32, activation:'relu'}));
         model.add(tf.layers.maxPooling2d({poolSize:2, strides:2}));
@@ -73,12 +73,12 @@ export default class Mnist{
         model.add(tf.layers.flatten({}));
         model.add(tf.layers.dense({units: 64, activation: 'relu'}));
         model.add(tf.layers.dense({units: 10, activation: 'softmax'}));
-        
         model.compile({
             optimizer:'rmsprop',
             loss:'categoricalCrossentropy',
             metrics: ['accuracy']
         });
+
         this.model = model;
     }
     static async train(acc:HTMLDivElement, epo:HTMLDivElement){

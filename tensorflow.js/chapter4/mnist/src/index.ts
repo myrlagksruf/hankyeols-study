@@ -1,5 +1,5 @@
 import Mnist from './data';
-import cv, { CanvasCodec } from "@techstark/opencv-js";
+import cv from "@techstark/opencv-js";
 const acc = document.querySelector<HTMLDivElement>('#acc');
 const epo = document.querySelector<HTMLDivElement>('#epo');
 const butCon = document.querySelector<HTMLDivElement>('#but-con');
@@ -14,7 +14,6 @@ const ctx = canvas.getContext('2d');
 type imgsize = [number, number, number, number];
 
 (async()=>{
-    console.log(cv);
     await Mnist.ready();
     await Mnist.load('../sample/mnist.json');
     butCon.classList.add('load');
@@ -111,6 +110,7 @@ predict.addEventListener('click', async e => {
         const dist = new cv.Mat();
         cv.resize(src, dist, size, 0, 0, cv.INTER_AREA);
         // cv.threshold(dist, dist, 1, 255, cv.THRESH_BINARY);
+        const div = document.createElement('div');
         const resultCanvas = document.createElement('canvas');
         resultCanvas.width = 28;
         resultCanvas.height = 28;
@@ -120,7 +120,10 @@ predict.addEventListener('click', async e => {
         for(let j = 0; j < rawData.data.length / 4; j++){
             floatArr[i * 28 * 28 + j] = rawData.data[j * 4 + 3] / 255;
         }
-        resultDiv.appendChild(resultCanvas);
+        div.appendChild(resultCanvas);
+        div.appendChild(document.createElement('br'));
+        div.appendChild(document.createElement('span'));
+        resultDiv.appendChild(div);
     };
 
     for(let y = 0; y < canvas.height; y++){
@@ -146,7 +149,18 @@ predict.addEventListener('click', async e => {
     for(let i = 0; i < obj.length; i++){
         makeCanvas(obj[i], i);
     }
-    await Mnist.predict(floatArr);
+    const resultArr = await Mnist.predict(floatArr);
+    for(let i = 0; i < resultArr.length; i++){
+        const innerArr = resultArr[i];
+        let max= [0, 0];
+        for(let j = 0; j < innerArr.length; j++){
+            if(innerArr[j] > max[0]){
+                max[0] = innerArr[j];
+                max[1] = j;
+            }
+        }
+        document.querySelector(`#result-div > div:nth-child(${i + 1}) > span`).innerHTML = String(max[1]);
+    }
     predict.classList.remove('loading');
 }, {capture:true});
 

@@ -102,7 +102,7 @@ export default class Mnist{
         console.log(arr.length);
         const tensor = tf.tensor4d(arr, [arr.length / this.SIZE, this.H, this.W, 1]);
         const value = this.model.predict(tensor) as tf.Tensor2D;
-        console.log(await value.array())
+        return value.array();
     }
 
     static async load(url:string){

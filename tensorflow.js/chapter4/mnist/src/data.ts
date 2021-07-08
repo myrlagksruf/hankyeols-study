@@ -80,6 +80,7 @@ export default class Mnist{
         });
 
         this.model = model;
+        console.log(await Mnist.tensorImage.slice(0, 1).array());
     }
     static async train(acc:HTMLDivElement, epo:HTMLDivElement){
         await this.model.fit(Mnist.tensorImage, Mnist.tensorLabel, {

@@ -21,14 +21,23 @@
         input:invalid{
             border: 5px solid red;
         }
+        canvas{
+            border: 1px solid black;
+        }
+        #result-canvas{
+            width: 280px;
+            height: 280px;
+        }
     </style>
 </head>
 <body>
     <canvas width="280" height="280"></canvas>
+    <div id="result-div"></div>
     <div id="but-con">
         <button id="train"></button>
         <button id="save">현재 모델 저장하기</button>
-        <button id="load">모델 로드하기</button>
+        <button id="reset">리셋하기</button>
+        <button id="predict">예측하기</button>
     </div>
     <div id="acc"></div>
     <div id="epo"></div>

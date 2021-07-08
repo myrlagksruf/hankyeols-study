@@ -30,6 +30,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        fallback: {
+            fs: false,
+            path: false,
+            crypto: false
+        }
     },
     output: {
         filename: '[name].js',

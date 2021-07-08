@@ -80,7 +80,6 @@ export default class Mnist{
         });
 
         this.model = model;
-        console.log(await Mnist.tensorImage.slice(0, 1).array());
     }
     static async train(acc:HTMLDivElement, epo:HTMLDivElement){
         await this.model.fit(Mnist.tensorImage, Mnist.tensorLabel, {
@@ -99,14 +98,26 @@ export default class Mnist{
             }
         });
     }
+    static async predict(arr:Float32Array){
+        console.log(arr.length);
+        const tensor = tf.tensor4d(arr, [arr.length / this.SIZE, this.H, this.W, 1]);
+        const value = this.model.predict(tensor) as tf.Tensor2D;
+        console.log(await value.array())
+    }
+
     static async load(url:string){
-        const model = (await tf.loadLayersModel(url)) as tf.Sequential;
-        model.compile({
-            optimizer:'rmsprop',
-            loss:'categoricalCrossentropy',
-            metrics: ['accuracy']
-        });
-        this.model = model;
+        const res = await fetch(url);
+        if(res.status === 200){
+            const model = (await tf.loadLayersModel(url)) as tf.Sequential;
+            model.compile({
+                optimizer:'rmsprop',
+                loss:'categoricalCrossentropy',
+                metrics: ['accuracy']
+            });
+            this.model = model;
+        } else {
+            alert('모델 없음');
+        }
     }
 }
 

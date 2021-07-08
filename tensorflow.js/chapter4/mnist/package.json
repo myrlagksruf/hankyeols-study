@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@techstark/opencv-js": "*",
     "@tensorflow/tfjs": "^3.7.0",
     "@tensorflow/tfjs-backend-webgpu": "^0.0.1-alpha.7"
   },

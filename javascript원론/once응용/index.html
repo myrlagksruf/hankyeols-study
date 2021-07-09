@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" min="1" step="1">
+    <button id="btn1">이벤트 생성</button>
+    <button id="btn2">여기가 이벤트</button>
+    <script>
+        const input = document.querySelector('input');
+        const btn1 = document.querySelector('#btn1');
+        const btn2 = document.querySelector('#btn2');
+
+        const history = {
+            fun:null
+        }
+
+        btn1.addEventListener('click', e => {
+            if(history.fun) btn2.removeEventListener('click', history.fun, {once:true});
+            const fun = e => {
+                alert('한 번 성공');
+                history.fun = null;
+            };
+            history.fun = fun;
+            btn2.addEventListener('click', fun, {once:true});
+        });
+    </script>
+</body>
+</html>

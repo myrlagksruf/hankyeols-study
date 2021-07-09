@@ -5,16 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        input, select{
+            outline: none;
+        }
+        #container > input:invalid, #container > select:invalid{
+            border:5px solid red;
+        }
+    </style>
     <script src="./dist/index.js" defer></script>
 </head>
 <body>
     <div id="container">
-        이름 : <input type="text" required minlength="2" maxlength="5" class="con"><span></span><br>
-        나이 : <input type="number" required min="1" max="200" class="con"><span></span><br>
-        성별 : <select class="con">
+        아이디 : <input type="text" id="name" required minlength="10" maxlength="20" class="con"><span></span><br>
+        나이 : <input type="number" id="age" required min="1" max="200" class="con"><span></span><br>
+        성별 : <select class="con" id="sex">
             <option value="M">남성</option>
             <option value="F">여성</option>
-        </select>
+        </select><span></span>
     </div>
 </body>
 </html>

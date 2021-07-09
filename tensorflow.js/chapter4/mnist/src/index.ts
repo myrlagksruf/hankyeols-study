@@ -17,20 +17,23 @@ type imgsize = [number, number, number, number];
     await Mnist.ready();
     await Mnist.load('../sample/mnist.json');
     butCon.classList.add('load');
+    const style = getComputedStyle(canvas);
+    const wid = parseFloat(style.width);
+    const hei = parseFloat(style.height);
+    document.addEventListener('mousedown', e => {
+        ctx.beginPath();
+        const x = e.offsetX * canvas.width / wid;
+        const y = e.offsetY * canvas.height / hei;
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 4;
+        ctx.moveTo(x, y);
+    });
+    document.addEventListener('mouseup', e => ctx.closePath());
     document.addEventListener('mousemove', e => {
         const isMouseDown = e.buttons % 2;
         if(isMouseDown === 1 && e.target === canvas){
-            const style = getComputedStyle(canvas);
-            const wid = parseFloat(style.width);
-            const hei = parseFloat(style.height);
             const x = e.offsetX * canvas.width / wid;
             const y = e.offsetY * canvas.height / hei;
-            const dx = e.movementX * canvas.width / wid;
-            const dy = e.movementY * canvas.height / hei;
-            ctx.beginPath();
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 4;
-            ctx.moveTo(x - dx, y - dy);
             ctx.lineTo(x, y);
             ctx.stroke();
         }

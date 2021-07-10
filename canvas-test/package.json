@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "concurrently \"cd back&&tsc -w\" \"nodemon back/dist/index.js\" \"cd front&&npx webpack serve\"",
-    "start": "concurrently \"cd back&&tsc -w\" \"nodemon back/dist/index.js\" \"cd front&&sudo npx webpack -w\""
+    "start": "concurrently \"cd back&&tsc -w\" \"nodemon back/dist/index.js\" \"cd front&&npx webpack -w\""
   },
   "author": "",
   "license": "ISC"

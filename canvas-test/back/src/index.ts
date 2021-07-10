@@ -3,7 +3,7 @@ import path from 'path';
 import { Server } from 'socket.io';
 import Char from './char';
 const app = express();
-const PORT = 4000;
+const PORT = 3000;
 const server = app.listen(PORT);
 
 const io = new Server(server);

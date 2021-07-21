@@ -88,7 +88,7 @@ export default class Mnist{
             epochs:5,
             callbacks:{
                 async onBatchEnd(batch, logs){
-                    acc.innerHTML = `batch : ${batch}, accuracy : ${logs.acc}`;
+                    acc.innerHTML = `batch : ${batch}, accuracy : ${logs.accuracy}`;
                     await tf.nextFrame();
                 },
                 async onEpochEnd(epoch, logs){

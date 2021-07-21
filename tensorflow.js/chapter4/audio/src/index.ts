@@ -22,5 +22,13 @@ const acc = $<HTMLDivElement>('#acc');
 //         })
 //     })
     await Sori.ready();
-    await Sori.train({acc, epo});
+
+    try{
+        await Sori.load();
+        Sori.predict();
+    } catch(err){
+        await Sori.train({acc, epo});
+    }
+
+    
 })();

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const arr = [];
+        const make = (n, m, str = '') => {
+            if(m === 0 && n === 0) return arr.push(str);
+            if(n > 0) {
+                make(n - 1, m, `${str}(`);
+            }
+            if(m > 0) {
+                make(n, m - 1, `${str})`);
+            }
+        };
+        const isBracket = v => {
+            let num = 0;
+            const obj = {
+                '(': 1,
+                ')':-1
+            }
+            for(let i of v){
+                num += obj[i];
+                if(num < 0) return false;
+            }
+            return true;
+        };
+        make(4,4);
+        console.log(arr.filter(isBracket));
+        
+    </script>
+</body>
+</html>

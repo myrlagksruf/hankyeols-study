@@ -93,7 +93,8 @@ geoMap.set('551', new THREE.PlaneGeometry(5, 5, 1));
 geoMap.set('22', new THREE.PlaneGeometry(2, 2));
 geoMap.set('2512', new THREE.PlaneGeometry(2, 2, 512, 512));
 geoMap.set('1512', new THREE.SphereGeometry(1, 512, 512));
-
+geoMap.set('eye', new THREE.SphereGeometry(1, 512, 512));
+const eye = new THREE.SphereGeometry(1, 512, 512);
 
 const grass = new THREE.MeshPhongMaterial({ color: 0x0a7d15, normalMap: grassNormalMap })
 for (let i = -50; i <= 50; i += 5) {

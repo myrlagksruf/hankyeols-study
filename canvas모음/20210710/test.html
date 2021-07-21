@@ -8,7 +8,13 @@
 </head>
 <body>
     <script>
-        
+        fetch('https://comic.naver.com/webtoon/weekday')
+        .then(v => v.text())
+        .then(v => {
+            const domparser = new DOMParser();
+            const dom = domparser.parseFromString(v, 'text/html');
+            const td = docu
+        });
     </script>
 </body>
 </html>

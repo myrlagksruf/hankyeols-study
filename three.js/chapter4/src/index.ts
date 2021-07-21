@@ -189,20 +189,20 @@ sphere5.position.z = 9
 // sphere5.add(cubeCamera)
 scene.add(sphere5)
 
-// DIRECTIONAL LIGHT
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.x += 20
-directionalLight.position.y += 20
-directionalLight.position.z += 20
-scene.add(directionalLight);
+// // DIRECTIONAL LIGHT
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+// directionalLight.position.x += 20
+// directionalLight.position.y += 20
+// directionalLight.position.z += 20
+// scene.add(directionalLight);
 
 // scene.add(new THREE.CameraHelper(directionalLight.shadow.camera));
 
 // ANIMATE
 function animate(_time:number) {
     const time = _time * 0.0005;
-    directionalLight.position.x =  Math.sin(time * 0.7) * 20;
-    directionalLight.position.z = Math.abs( Math.cos(time * 0.7) ) * 20;
+    // directionalLight.position.x =  Math.sin(time * 0.7) * 20;
+    // directionalLight.position.z = Math.abs( Math.cos(time * 0.7) ) * 20;
 
     controls.update();
 

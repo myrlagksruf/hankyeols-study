@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" maxlength="13" id="phone" autocomplete="off">
+    <script>
+        const phone = document.querySelector('#phone');
+
+        phone.addEventListener('keydown', e => {
+            console.log(e.key, e.code);
+            if(!/^(\d|Arrow\w+)$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete'){
+                e.preventDefault();
+            }
+        })
+
+        phone.addEventListener('input', e => {
+            const val = phone.value.match(/(\d{0,3})(\-)?(\d{1,4})?(\-)?(\d{1,4})?/);
+            if(val[1]){
+                if(val[2] && !val[3]){
+                    phone.value = val[1];
+                } else if(!val[2] && val[3]){
+                    phone.value = `${val[1]}-${val[3]}`;
+                }
+                if(val[4] && !val[5]){
+                    phone.value = `${val[1]}-${val[3]}`;
+                } else if(!val[4] && val[5]){
+                    phone.value = `${val[1]}-${val[3]}-${val[5]}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

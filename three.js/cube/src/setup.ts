@@ -16,9 +16,11 @@ const max = 5;
 camera.position.z = max;
 camera.lookAt(0, 0, 0);
 
-const cubeGeo = new THREE.BoxGeometry(1, 1, 1);
+const len = 0.96
+
+const cubeGeo = new THREE.BoxGeometry(len, len, len);
 const planeGeo = new THREE.PlaneGeometry(3, 3);
-const boxEdge = new THREE.BoxGeometry(1, 1, 1);
+const boxEdge = new THREE.BoxGeometry(len, len, len);
 const edge = new THREE.EdgesGeometry( boxEdge );
 
 const colors = [

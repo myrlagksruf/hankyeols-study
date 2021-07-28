@@ -1,18 +1,22 @@
 import * as THREE from 'three';
-import { renderer, raycaster, mouse, rayarr, BOX, canvas, camera, scene } from './setup';
-import { getFriends } from './fun';
+import { renderer, raycaster, mouse, rayarr, BOX, canvas, camera, scene, rayarr2 } from './setup';
+import { getPlaneFriends, rotateAnimationStart } from './fun';
 
 const move = [0, 0];
 
 const sel:{
     BoxGeometry:THREE.Mesh;
+    PlaneGeometry?:THREE.Mesh;
     mouse:{
         Box:THREE.Object3D;
+        Plane?:THREE.Mesh;
     };
     start:number;
     color:{
         BoxGeometry:number;
-    };
+        PlaneGeometry?:number
+    },
+    fun:() => boolean
 } = {
     BoxGeometry:null,
     mouse:{
@@ -21,7 +25,8 @@ const sel:{
     start:0,
     color:{
         BoxGeometry:0
-    }
+    },
+    fun:null
 };
 
 
@@ -31,10 +36,10 @@ const sel:{
 // start = 3 : 움직이는데 마우스 는 땜
 
 canvas.addEventListener('mousedown', e => {
-    if(sel.BoxGeometry) {
+    if(sel.BoxGeometry && sel.PlaneGeometry && sel.start === 0) {
         sel.mouse.Box = sel.BoxGeometry.parent;
-        const name = sel.mouse.Box.name;
-        console.log(BOX.getObjectByName(name).getWorldPosition(new THREE.Vector3(0, 0, 0)));
+        sel.mouse.Plane = sel.PlaneGeometry;
+        console.log(sel.mouse.Box.name, sel.mouse.Plane.name)
         sel.start = 1;
     }
 });
@@ -51,11 +56,24 @@ canvas.addEventListener('mousemove', e => {
     if(sel.start === 1){
         move[0] = 0;
         move[1] = 0;
-        // findWhat(sel.msouse.Box.name, new THREE.Vector3(e.movementY, e.movementX, 0).normalize())
+
+        const name = sel.mouse.Box.name;
+        const pname = sel.mouse.Plane.name;
+        const vecs = getPlaneFriends(pname);
+
+        let max = -100;
+        let choose:string = null;
+        for(let i of vecs){
+            const num = i[1].x * e.movementY + i[1].y * e.movementX;
+            if(num > max) {
+                max = num;
+                choose = i[0];
+            }
+        }
+
+        sel.fun = rotateAnimationStart(name, choose, 30)
         sel.start = 2;
-    } else if(sel.start === 2){
-        
-    } else {
+    } else if(sel.start !== 2) {
         mouse.x = (e.clientX / innerWidth) * 2 - 1;
         mouse.y = -(e.clientY / innerHeight) * 2 + 1;
         if(e.buttons % 2 === 1){
@@ -70,6 +88,8 @@ const loop = (time:number) => {
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObjects( rayarr );
+
+    const intersectsPlane = raycaster.intersectObjects(rayarr2);
     if(sel.BoxGeometry) {
         (sel.BoxGeometry.material as THREE.MeshBasicMaterial).color.set(sel.color.BoxGeometry);
         sel.BoxGeometry = null;
@@ -92,7 +112,18 @@ const loop = (time:number) => {
             sel.color.BoxGeometry = (cur.material as THREE.MeshBasicMaterial).color.getHex();
         }
     }
+
+    sel.PlaneGeometry = (intersectsPlane[0]?.object as THREE.Mesh);
+
     if(sel.BoxGeometry)(sel.BoxGeometry.material as THREE.MeshBasicMaterial).color.set(0xffff00);
+
+    if(sel.fun){
+        if(sel.fun()){
+            sel.fun = null;
+            sel.start = 0;
+        }
+    }
+
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
 }

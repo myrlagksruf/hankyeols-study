@@ -3,6 +3,7 @@ import { renderer, raycaster, mouse, rayarr, BOX, canvas, camera, scene, rayarr2
 import { getPlaneFriends, rotateAnimationStart } from './fun';
 
 const move = [0, 0];
+const moving = [0, 0];
 
 const sel:{
     BoxGeometry:THREE.Mesh;
@@ -39,8 +40,11 @@ canvas.addEventListener('mousedown', e => {
     if(sel.BoxGeometry && sel.PlaneGeometry && sel.start === 0) {
         sel.mouse.Box = sel.BoxGeometry.parent;
         sel.mouse.Plane = sel.PlaneGeometry;
-        console.log(sel.mouse.Box.name, sel.mouse.Plane.name)
+        moving[0] = 0;
+        moving[1] = 0;
         sel.start = 1;
+    } else {
+        canvas.requestPointerLock();
     }
 });
 
@@ -50,29 +54,34 @@ canvas.addEventListener('mouseup', e => {
     } else {
         sel.start = 0;
     }
+    document.exitPointerLock();
 });
 
 canvas.addEventListener('mousemove', e => {
     if(sel.start === 1){
         move[0] = 0;
         move[1] = 0;
+        moving[0] += e.movementX;
+        moving[1] += e.movementY;
+        console.log(moving);
+        if(moving[0] ** 2 + moving[1] ** 2 > 400){
+            const name = sel.mouse.Box.name;
+            const pname = sel.mouse.Plane.name;
+            const vecs = getPlaneFriends(pname);
 
-        const name = sel.mouse.Box.name;
-        const pname = sel.mouse.Plane.name;
-        const vecs = getPlaneFriends(pname);
-
-        let max = -100;
-        let choose:string = null;
-        for(let i of vecs){
-            const num = i[1].x * e.movementY + i[1].y * e.movementX;
-            if(num > max) {
-                max = num;
-                choose = i[0];
+            let max = -100;
+            let choose:string = null;
+            for(let i of vecs){
+                const num = i[1].x * moving[1] + i[1].y * moving[0];
+                if(num > max) {
+                    max = num;
+                    choose = i[0];
+                }
             }
-        }
 
-        sel.fun = rotateAnimationStart(name, choose, 30)
-        sel.start = 2;
+            sel.fun = rotateAnimationStart(name, choose, 30)
+            sel.start = 2;
+        }
     } else if(sel.start !== 2) {
         mouse.x = (e.clientX / innerWidth) * 2 - 1;
         mouse.y = -(e.clientY / innerHeight) * 2 + 1;

@@ -5,16 +5,14 @@ const all = ['000', '001', '002', '010', '011', '012', '020', '021', '022',
 '100', '101', '102', '110', '111', '112', '120', '121', '122',
 '200', '201', '202', '210', '211', '212', '220', '221', '222']
 
-const planes = ['00', '10', '20', '02', '12', '22'];
-
-const planeFilter = (name:string) => (v:string) => {
+const getPlane = (name:string) => ['00', '10', '20', '02', '12', '22'].filter(v => {
     if(v[0] !== name[0]) return true;
     else return false;
-}
+});
 
 export const getPlaneFriends = (name:string) => {
     const friends:[string, THREE.Vector3][] = [];
-    const arr = planes.filter(planeFilter(name));
+    const arr = getPlane(name);
     for(let i of arr){
         friends.push([i, BOX.getObjectByName(i).getWorldPosition(new THREE.Vector3(0, 0, 0)).normalize()]);
     }

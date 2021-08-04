@@ -23,12 +23,6 @@ const planeGeo = new THREE.PlaneGeometry(3, 3);
 const boxEdge = new THREE.BoxGeometry(len, len, len);
 const edge = new THREE.EdgesGeometry( boxEdge );
 
-const colors = [
-    0xff0000,
-    0x00ff00,
-    0x0000ff
-];
-
 const way:[[number, number, number], [number, number, number], string][] = [
     [[0, 0, 1], [0, 0, -1.5], '20'],
     [[1, 0, 0], [0, -1.5, 0], '10'],
@@ -48,12 +42,51 @@ for(let i of way){
     rayarr2.push(plane);
     BOX.add(plane);
 }
+// [0x000000, 0xff0000, 0xff00ff, 0x0000ff, 0x00ffff, 0x00ff00]
+const colors = [
+    [, 0xff0000,, 0x0000ff,, 0x00ff00],
+    [, 0xff0000,, 0x0000ff,,],
+    [, 0xff0000,, 0x0000ff,0x00ffff,],
+    [, 0xff0000,,,, 0x00ff00],
+    [, 0xff0000,,,,],
+    [, 0xff0000,,,0x00ffff,],
+    [, 0xff0000,0xff00ff,,, 0x00ff00],
+    [, 0xff0000,0xff00ff,,,],
+    [, 0xff0000,0xff00ff,,0x00ffff,],
+    [,,, 0x0000ff,, 0x00ff00],
+    [,,, 0x0000ff,,],
+    [,,,0x0000ff,0x00ffff,],
+    [,,,,, 0x00ff00],
+    [,,,,,],
+    [,,,, 0x00ffff,],
+    [,, 0xff00ff,,, 0x00ff00],
+    [,, 0xff00ff,,,],
+    [,, 0xff00ff,, 0x00ffff,],
+    [0x000000,,, 0x0000ff,, 0x00ff00],
+    [0x000000,,, 0x0000ff,,],
+    [0x000000,,, 0x0000ff, 0x00ffff,],
+    [0x000000,,,,, 0x00ff00],
+    [0x000000,,,,,],
+    [0x000000,,,, 0x00ffff,],
+    [0x000000,, 0xff00ff,,, 0x00ff00],
+    [0x000000,, 0xff00ff,,,],
+    [0x000000,, 0xff00ff,, 0x00ffff,]
+];
+
+const colors2 = [0x000000, 0xff0000, 0xff00ff, 0x0000ff, 0x00ffff, 0x00ff00];
 
 for(let i = 0; i < 3; i++){
     for(let j = 0; j < 3; j++){
         for(let k = 0; k < 3; k++){
             const cube = new THREE.Object3D();
-            const cubeColor = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({color:colors[(i + j + k) % 3]}));
+            const cubeColor = new THREE.Mesh(cubeGeo, [
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[0] ?? 0xf2f2f2}),
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[1] ?? 0xf2f2f2}),
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[2] ?? 0xf2f2f2}),
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[3] ?? 0xf2f2f2}),
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[4] ?? 0xf2f2f2}),
+                new THREE.MeshBasicMaterial({color:colors[i * 9 + j * 3 + k]?.[5] ?? 0xf2f2f2})
+            ]);
 
             const edgeLine = new THREE.LineSegments( edge, new THREE.LineBasicMaterial( { color: 0x000000 }));
 

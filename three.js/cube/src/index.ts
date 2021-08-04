@@ -14,7 +14,7 @@ const sel:{
     };
     start:number;
     color:{
-        BoxGeometry:number;
+        BoxGeometry:number[];
         PlaneGeometry?:number
     },
     fun:() => boolean
@@ -25,7 +25,7 @@ const sel:{
     },
     start:0,
     color:{
-        BoxGeometry:0
+        BoxGeometry:[]
     },
     fun:null
 };
@@ -100,9 +100,9 @@ const loop = (time:number) => {
 
     const intersectsPlane = raycaster.intersectObjects(rayarr2);
     if(sel.BoxGeometry) {
-        (sel.BoxGeometry.material as THREE.MeshBasicMaterial).color.set(sel.color.BoxGeometry);
+        (sel.BoxGeometry.material as THREE.MeshBasicMaterial[]).forEach((v, i) => v.color.set(sel.color.BoxGeometry[i]));
         sel.BoxGeometry = null;
-        sel.color.BoxGeometry = 0;
+        sel.color.BoxGeometry = [];
     }
 
     BOX.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), move[0] / 1000);
@@ -118,13 +118,13 @@ const loop = (time:number) => {
         if(max < vec){
             max = vec;
             sel.BoxGeometry = cur;
-            sel.color.BoxGeometry = (cur.material as THREE.MeshBasicMaterial).color.getHex();
+            sel.color.BoxGeometry = (cur.material as THREE.MeshBasicMaterial[]).map(v => v.color.getHex());
         }
     }
 
     sel.PlaneGeometry = (intersectsPlane[0]?.object as THREE.Mesh);
 
-    if(sel.BoxGeometry)(sel.BoxGeometry.material as THREE.MeshBasicMaterial).color.set(0xffff00);
+    if(sel.BoxGeometry)(sel.BoxGeometry.material as THREE.MeshBasicMaterial[]).forEach(v => v.color.set(0xffff00));
 
     if(sel.fun){
         if(sel.fun()){

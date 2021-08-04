@@ -36,7 +36,7 @@ export const rotateAnimationStart = (name:string, plane:string, frames:number = 
     return () => {
         if(i === frames) {
             for(let j = 0; j < cubes.length; j++){
-                cubes[j].setRotationFromAxisAngle(new THREE.Vector3(0, 0, 0), 0);
+                // cubes[j].setRotationFromAxisAngle(new THREE.Vector3(0, 0, 0), 0);
                 cubes[j].position.copy(to[j]);
                 cubes[j].name = `${to[j].x + 1}${to[j].y + 1}${to[j].z + 1}`;
             }
@@ -45,7 +45,7 @@ export const rotateAnimationStart = (name:string, plane:string, frames:number = 
 
         for(let j of cubes){
             j.position.applyAxisAngle(vec, Math.PI / (frames * 2));
-            j.rotateOnAxis(vec, Math.PI / (frames * 2));
+            j.rotateOnWorldAxis(vec, Math.PI / (frames * 2));
         }
         i++;
         return false;

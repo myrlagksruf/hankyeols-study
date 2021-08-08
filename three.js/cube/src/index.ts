@@ -17,7 +17,7 @@ const sel:{
         BoxGeometry:number[];
         PlaneGeometry?:number
     },
-    fun:(() => boolean)[]
+    fun:() => boolean
 } = {
     BoxGeometry:null,
     mouse:{
@@ -27,7 +27,7 @@ const sel:{
     color:{
         BoxGeometry:[]
     },
-    fun:[]
+    fun:null
 };
 
 
@@ -79,7 +79,7 @@ canvas.addEventListener('mousemove', e => {
                 }
             }
 
-            sel.fun.push(rotateAnimationStart(name, choose, 30))
+            sel.fun = rotateAnimationStart(name, choose, 30);
             sel.start = 2;
         }
     } else if(sel.start !== 2) {
@@ -126,9 +126,9 @@ const loop = (time:number) => {
 
     if(sel.BoxGeometry)(sel.BoxGeometry.material as THREE.MeshBasicMaterial[]).forEach(v => v.color.set(0xffff00));
 
-    if(sel.fun.length){
-        if(sel.fun[0]()){
-            sel.fun.shift();
+    if(sel.fun){
+        if(sel.fun()){
+            sel.fun = null;
             sel.start = 0;
         }
     }

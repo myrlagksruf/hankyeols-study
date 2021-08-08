@@ -3,7 +3,11 @@ import { BOX } from './setup';
 
 const all = ['000', '001', '002', '010', '011', '012', '020', '021', '022',
 '100', '101', '102', '110', '111', '112', '120', '121', '122',
-'200', '201', '202', '210', '211', '212', '220', '221', '222']
+'200', '201', '202', '210', '211', '212', '220', '221', '222'];
+
+const obj:{[n:string]:number} = {};
+for(let i = 0; i < 27; i++) obj[all[i]] = i;
+
 
 const getPlane = (name:string) => ['00', '10', '20', '02', '12', '22'].filter(v => {
     if(v[0] !== name[0]) return true;
@@ -25,7 +29,7 @@ export const rotateAnimationStart = (name:string, plane:string, frames:number = 
 
     const cubeNames = all.filter(v => v[Number(plane[0])] === name[Number(plane[0])]);
     const vec = BOX.getObjectByName(plane).position.normalize();
-    const cubes:THREE.Object3D[] = []
+    const cubes:THREE.Object3D[] = [];
     const to:THREE.Vector3[] = [];
     for(let i of cubeNames){
         const cube = BOX.getObjectByName(i);

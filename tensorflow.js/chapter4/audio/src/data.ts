@@ -5,7 +5,7 @@ class Sori{
     static LEARNING_RATE = 0.001 as const;
     static SIZE = 80;
     static RESULT_SIZE = 8;
-    static GAP = 2  ;
+    static GAP = 1800;
     static model:tf.Sequential;
     static ten:tf.Tensor2D;
     static sor:tf.Tensor2D;
@@ -53,8 +53,12 @@ class Sori{
             return;
         }
 
-        this.ten = tf.tensor2d(result, [len, this.H]);
-        this.sor = tf.tensor2d(label, [len, this.RESULT_SIZE]);
+        let tempLen = len;
+
+
+        this.ten = tf.real(tf.spectral.fft(tf.complex(result.slice(0, this.H * tempLen), tf.zeros([this.H * tempLen])).reshape([tempLen, this.H]))) as tf.Tensor2D;
+        // tf.tensor2d(result, [len, this.H]);
+        this.sor = tf.tensor2d(label.slice(0, this.RESULT_SIZE * tempLen), [tempLen, this.RESULT_SIZE]);
 
 
         const model = tf.sequential();
@@ -62,7 +66,7 @@ class Sori{
         model.add(tf.layers.dense({units: 256}));
         model.add(tf.layers.dense({units: 128}));
         model.add(tf.layers.dense({units: 64}));
-        model.add(tf.layers.dense({units: this.RESULT_SIZE}));
+        model.add(tf.layers.dense({units: this.RESULT_SIZE, activation: 'softmax'}));
         model.compile({
             optimizer:'rmsprop',
             loss:'categoricalCrossentropy',
@@ -72,7 +76,7 @@ class Sori{
     }
     static async train(obj:{acc:HTMLDivElement, epo:HTMLDivElement}){
         await this.model.fit(this.ten, this.sor, {
-            batchSize:32,
+            batchSize:8,
             validationSplit:0.15,
             epochs:100,
             callbacks:{
@@ -100,7 +104,7 @@ class Sori{
     }
 
     static async predict(){
-        (this.model.predict(this.ten.slice(300, 1)) as tf.Tensor2D).print();
+        (this.model.predict(this.ten) as tf.Tensor2D).print();
     }
 }
 

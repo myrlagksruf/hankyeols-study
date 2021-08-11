@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #canvas>table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        td span {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 50%;
+            border: 2px solid black;
+        }
+
+        td span.red {
+            background-color: red;
+        }
+
+        td span.yellow {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="result">Connect Four</h1>
+    <div id="canvas">
+        <table></table>
+    </div>
+    <script>
+        const table = document.querySelector('#canvas > table');
+        const result = document.querySelector('#result');
+
+        const MAP_WIDTH = 7;
+        const MAP_HEIGHT = 6;
+        const turns = ['red', 'yellow'];
+        let turn = 0;
+        const board = [];
+        let isOver = false;
+
+        const dir = [[1, 0], [0, 1], [1, 1], [1, -1]];
+
+        // map size => 7x6
+        const initMap = () => {
+            for (let y = 0; y < MAP_HEIGHT; y++) {
+                const tr = document.createElement('tr');
+                board.push([null, null, null, null, null, null]);
+                for (let x = 0; x < MAP_WIDTH; x++) {
+                    const td = document.createElement('td');
+                    td.dataset.x = x;
+                    td.dataset.y = y;
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+
+        const render = (board) => {
+            for (let y = 0; y < board.length; y++) {
+                for (let x = 0; x < board[y].length; x++) {
+                    if (board[y][x] != null) {
+                        const td = document.querySelector(`td[data-x="${x}"][data-y="${y}"]`)
+                        td.innerHTML = `<span class="${turns[board[y][x]]}"></span>`;
+                    }
+                }
+            }
+        }
+
+        const check = (x, y) => {
+            for (let k = 0; k < dir.length; k++) {
+                let str = '';
+                const d = dir[k];
+                for (let t = -3; t <= 3; t++) {
+                    if (board[y + d[0] * t]?.[x + d[1] * t] === turn)
+                        str += 'O';
+                    else
+                        str += 'X';
+                }
+                for (let i = 0; i < 4; i++) {
+                    if (str[i] === 'O' && str[i + 1] === 'O' && str[i + 2] === 'O' && str[i + 3] === 'O') {
+                        return true;
+                    }
+                }
+                str = '';
+            }
+            return false;
+        }
+
+        table.onclick = (e) => {
+            let tar = e.target;
+            if (tar.nodeName === 'SPAN') {
+                tar = tar.parentElement;
+            }
+            if (tar.nodeName === 'TD' && !isOver) {
+                const x = parseInt(tar.dataset.x);
+                const y = parseInt(tar.dataset.y);
+                let i = 0;
+
+                for (i = MAP_HEIGHT - 1; i >= 0; i--) {
+                    if (board[i][x] == null) {
+                        board[i][x] = turn;
+                        break;
+                    }
+                    if (board[0][x] != null) {
+                        alert('거기에는 둘 수 없습니다.');
+                        return false;
+                    }
+                }
+                render(board);
+                if (check(x, i)){
+                    result.innerHTML = `<strong style="color: ${turns[turn]};">${turns[turn]}</strong>님의 승리`; 
+                    isOver = true;
+                }
+                else{
+                    turn = 1 - turn;
+                    result.innerHTML = `${turns[turn]}님의 차례`;
+                }
+            }
+        }
+
+        table.onmouseover = (e) => {
+            let tar = e.target;
+            if (tar.nodeName === 'SPAN') tar = tar.parentElement;
+            if (tar.nodeName === 'TD') {
+                const x = parseInt(tar.dataset.x);
+                const y = parseInt(tar.dataset.y);
+                for (let k = 0; k < MAP_HEIGHT; k++) {
+                    const td = document.querySelector(`td[data-x="${x}"][data-y="${k}"]`);
+                    td.style.backgroundColor = 'lightgray';
+                }
+            }
+        }
+
+        table.onmouseout = (e) => {
+            let tar = e.target;
+            for (let i = 0; i < MAP_HEIGHT; i++) {
+                for (let j = 0; j < MAP_WIDTH; j++) {
+                    const td = document.querySelector(`td[data-x="${j}"][data-y="${i}"]`);
+                    td.style.backgroundColor = 'white';
+                }
+            }
+        }
+
+        initMap();
+    </script>
+</body>
+
+</html> 

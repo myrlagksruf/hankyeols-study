@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>문자열을 작성하고, 개발자 도구를 열어보세요.</div>
+    <input type="text">
+    <script>
+        const input = document.querySelector('input');
+        input.oninput = () => {
+            const arr = [];
+            const val = input.value;
+            for(let i = val.length - 1; i >= 0; i--){
+                arr[val.length - i - 1] = val[i];
+            }
+            console.log(arr);
+        };
+    </script>
+</body>
+</html>

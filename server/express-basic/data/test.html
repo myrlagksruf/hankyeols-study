@@ -16,13 +16,27 @@
     </style>
 </head>
 <body>
-    <input type="text">
+    <input type="text"><br>
+    <img src="" alt="">
     <script>
+        const img = document.querySelector('img');
         const input = document.querySelector('input');
         input.addEventListener('keydown', async e => {
             if(e.key === 'Enter'){
                 const val = input.value;
-                const res = await fetch()
+                const res = await fetch('/file', {
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({type:'image', name:input.value})
+                });
+                const json = await res.json();
+                if(res.status === 200){
+                    img.src = json.url;
+                } else {
+                    console.log(json.status);
+                }
             }
         });
     </script>

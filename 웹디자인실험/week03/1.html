@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            position:relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 72px;
+            width:500px;
+            height: 200px;
+            border-radius: 100px;
+            background-color: #363636;
+            color:white;
+            user-select: none;
+            overflow: hidden;
+        }
+        div span{
+            z-index:2;
+        }
+        div::after{
+            content: "";
+            position: absolute;
+            left:50%;
+            top:50%;
+            z-index: 1;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #2196f3;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.7s;
+        }
+        div:hover::after{
+            transform: translate(-50%, -50%) scale(3);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span>Button</span>
+    </div>
+</body>
+</html>

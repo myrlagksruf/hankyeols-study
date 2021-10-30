@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul>li {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        ul>li:hover{
+            background-color: rgba(0, 0, 0, .1);
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">눌러보세요</button>
+    <ul></ul>
+    <div id="result"></div>
+    <script>
+        const btn = document.querySelector('#btn');
+        const ul = document.querySelector('ul');
+        const result = document.querySelector('#result')
+
+        let num = 0
+        let shape = 'O'
+
+        const init = () => {
+            for (let i = 0; i < 10; i++) {
+                const li = document.createElement('li')
+                li.innerHTML = shape
+                ul.appendChild(li);
+            }
+        }
+
+        btn.onclick = () => {
+            const lis = ul.querySelectorAll(`li`);
+            if (num % 2 === 0) shape = 'X'
+            else shape = 'O'
+            for (let i = 0; i < 6; i++) {
+                lis[(num + i) % 10].innerHTML += shape
+            }
+            num++;
+        }
+
+        ul.onclick = (e) => {
+            if(e.target.nodeName === 'LI'){
+                const li = e.target;
+                const arr = Array.from(li.innerHTML)
+                let count = 0
+                for(let i = 0;i<arr.length;i++){
+                    if(arr[i] === 'X') continue
+                    count++
+                }
+                result.innerHTML = `선택하신 칸의 O 개수는 <strong>${count}</strong>개입니다.`
+            }
+        }
+
+        init()
+    </script>
+</body>
+
+</html>

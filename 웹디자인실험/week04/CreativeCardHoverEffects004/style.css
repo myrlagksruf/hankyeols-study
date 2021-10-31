@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: #222;
+}
+
+.container {
+	position: relative;
+	width: 1000px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin: 20px;
+}
+
+.container .card {
+	position: relative;
+	height: 250px;
+	background: #fff;
+	display: flex;
+	width: 45%;
+	margin: 30px 0;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+}
+
+.container .card::before {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #333;
+	font-size: 6em;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	display: flex;
+	background-image: var(--bg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100px auto;
+	color: rgba(255, 255, 255, .05);
+	font-weight: 700;
+	justify-content: center;
+	align-items: flex-end;
+	transition: 0.5s ease-in-out;
+	overflow: hidden;
+}
+
+.container .card:hover::before {
+	width: 150px;
+	height: 150px;
+	left: -75px;
+	background-color: #ff0057;
+	background-size: 75px auto;
+	top: calc(50% - 75px);
+}
+
+.container .card .content {
+	position: absolute;
+	right: 0;
+	width: calc(100% - 75px);
+	height: 100%;
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container .card .content h3 {
+	margin-bottom: 5px;
+	font-size: 24px;
+}
+
+.container .card .content a {
+	display: inline-block;
+	margin-top: 10px;
+	padding: 5px 10px;
+	background: #333;
+	text-decoration: none;
+	color: #fff;
+}

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+.card {
+	position: relative;
+	width: 600px;
+	height: 350px;
+	margin: 20px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	border-radius: 20px;
+	/* #1497ee, #491f8f를 linear-gradient를 이용해서 적당히 줄 것 */
+}
+
+/* 이미지 높이가 400px에서 500px로 증가 */
+
+.card::before {
+	content: "";
+	/* 코드 작성 */
+	transition: 0.5s;
+}
+
+.card:hover::before {
+	/* 코드 작성 */
+}
+
+/* 적당한 여백과 너비와 위치를 줄 것 */
+
+.card .content {
+	position: relative;
+	/* 코드 작성 */
+	transition: 0.5s;
+}
+
+.card:hover .content {
+	/* 코드 작성 */
+}
+
+.card .content h2 {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 2.5em;
+	line-height: 1em;
+}
+
+.card .content p {
+	color: #fff;
+}
+
+.card .content a {
+	position: relative;
+	display: inline-block;
+	/* color #111, background-color : white 로 적당히 줄 것 */
+}

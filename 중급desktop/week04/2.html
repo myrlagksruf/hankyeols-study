@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .py-2{
+            padding: 10px 0;
+        }
+
+        input:focus{
+            outline: none;
+        }
+
+        input:valid{
+            border: 2px solid green;
+        }
+
+        input:invalid{
+            border: 2px solid red;
+        }
+        
+        #except::before{
+            content:"제외 : "
+        }
+
+        #result::before{
+            content:"결과 : "
+        }
+    </style>
+</head>
+<body>
+    <div class="py-2">
+        <label for="max-inp">최대값 => </label>
+        <input type="number" id="max-inp" required min="0">
+    </div>
+    <div class="py-2">
+        <label for="con-inp">입력한 숫자가 하나라도 포함돼있다면 더해지지 않습니다 => </label>
+        <input type="text" id="con-inp" pattern="^([0-9]+,)*[0-9]+$" required placeholder="ex) 1, 2, 3">
+    </div>
+    <div id="except"></div>
+    <div id="result"></div>
+    <script>
+        /*
+            자연수들 중 사용자가 입력한 최대값(#max-inp)까지 더하는데 더하고자 하는 수에 제외할 값(#con-num)이 
+            포함돼있다면 그건 더하지 않는다.
+            ex. 최대값 => 10, 제외할 값 => 1, 2
+            1부터 10까지 더하는데 1이나 2가 있다면 그 수는 제외하고 더한다. 3+4+5+6+7+8+9 = 42
+            
+            참고. 제외할 숫자들은 ,로 구분하며 이를 배열로 바꿔서 풀도록 하고,
+            제외하는 값을 중복없이 보이게한다.
+        */
+        const maxInp = document.querySelector('#max-inp');
+        const conInp = document.querySelector('#con-inp');
+        const except = document.querySelector('#except');
+        const result = document.querySelector('#result');
+        const main = () => {
+            if(maxInp.validity.valid && conInp.validity.valid){
+                let sum = 0;
+                const maxNum = parseInt(maxInp.value);
+                const conArr = conInp.value.split(',');
+                const exceptArr = [];
+                const correctArr = [];
+                for(let i = 1; i <= maxNum; i++){
+                    if(conArr.includes(String(i))){
+                        exceptArr.push(i);
+                        continue;
+                    }
+                    correctArr.push(i);
+                    sum += i;
+                }
+                except.innerHTML = exceptArr.join(', ');
+                result.innerHTML = `${correctArr.join(' + ')} = ${sum}`;
+            }
+        }
+
+        document.body.oninput = main;
+    </script>
+</body>
+</html>

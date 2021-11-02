@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin:0;
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            color:white;
+        }
+
+        .blue.pink{
+            background-color: rgb(150, 120, 200);
+        }
+
+        .blue{
+            background-color: rgb(67, 67, 226);
+        }
+
+        .pink{
+            background-color: rgb(241, 178, 188);
+        }
+        
+        #start1::after{
+            content: "철수";
+        }
+
+        #start2::after{
+            content: "영희";
+        }
+
+        .end::after{
+            content: "도착!";
+        }
+    </style>
+</head>
+
+<body>
+    <button>출발하기</button>
+    <table>
+        <tbody>
+            <tr data-y="0">
+                <td data-x="0" id="start1" class="blue"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="1">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="2">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="3">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="4">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="5">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="6">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="7">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="8">
+                <td data-x="0"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+            <tr data-y="9">
+                <td data-x="0" id="start2" class="pink"></td>
+                <td data-x="1"></td>
+                <td data-x="2"></td>
+                <td data-x="3"></td>
+                <td data-x="4"></td>
+                <td data-x="5"></td>
+                <td data-x="6"></td>
+                <td data-x="7"></td>
+                <td data-x="8"></td>
+                <td data-x="9"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+
+        // 철수와 영희가 각각 최단거리로 가기 게임을 한다.
+        // 철수는 tr[data-y="0"]>td[data-x="0"] 에서 출발해 tr[data-y="9"]>td[data-x="9"] 에 도착한다.
+        // 영희는 tr[data-y="9"]>td[data-x="0"] 에서 출발해 tr[data-y="0"]>td[data-x="9"] 에 도착한다.
+        // 철수는 가로로는 무조건 오른쪽으로, 세로로는 무조건 아래로만 움직인다.
+        // 영희는 가로로는 무조건 오른쪽으로, 세로로는 무조건 위로만 움직인다.
+        // make 함수 tar : 철수 또는 영희의 시작 태그, way : 각각의 움직이는 방향, cl : 지나간 길에 추가할 클래스 이다.
+        // make가 실행되면 지나간 길이 색칠된다.
+        // make의 실행동안 pick 함수가 실행된다.
+        // pick 함수 arr : 배열, 배열에서 랜덤한 요소 하나를 제거해 리턴한다. (제거할 때 splice를 쓸 것)
+        // pick 함수 전에 셔플 알고리즘을 이용해도 상관 없다.
+
+        const 철수 = document.querySelector('#start1');
+        const 영희 = document.querySelector('#start2');
+        const but = document.querySelector('button');
+        const tbody = document.querySelector('tbody');
+        const reset = tbody.innerHTML;
+        const pick = (arr) => {
+            const what = arr.splice(Math.floor(Math.random() * arr.length), 1);
+            if(what.length !== 0){
+                return what[0];
+            } else {
+                return null;
+            }
+        };
+
+
+        const make = (tar, way, cl) => {
+            const TF = [];  // 가로로 갈 지 세로로 갈 지에 대한 배열 
+            for(let i = 0; i < 9; i++){
+                TF.push(1, 0);
+            }
+            let cur = tar;
+            for(let i = 0; i < 18; i++){
+                const what = pick(TF);
+                let y = Number(cur.parentElement.dataset.y);
+                let x = Number(cur.dataset.x);
+                if(what === 1){
+                    x += way[0];
+                } else if(what === 0){
+                    y += way[1];
+                }
+                cur = document.querySelector(`tr[data-y="${y}"]>td[data-x="${x}"]`);
+                cur.classList.add(cl);
+            }
+            cur.classList.add('end');
+        };
+
+        const go = () => {
+            tbody.innerHTML = reset;
+            make(철수, [1, 1], 'blue');
+            make(영희, [1, -1], 'pink');
+        };
+
+        but.onclick = go;
+    </script>
+</body>
+
+</html>

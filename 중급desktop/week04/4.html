@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="date"]:focus{
+            outline: none;
+        }
+
+        input[type="date"]:valid {
+            border: 2px solid green;
+        }
+
+        input[type="date"]:invalid {
+            border: 2px solid red;
+        }
+
+        #result{
+            padding: 10px 0;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>당신의 생일을 입력해주세요</h3>
+    <input type="date" required>
+    <div id="result"></div>
+    <script>
+        /*
+            생년월일을 input 태그에 입력하면 나이를 계산해주는 프로그램 (배열 평가)
+            
+            반드시 grades 배열을 활용하도록 한다.
+            8살~19살은 grades 값을 활용하도록 하고 7살 이하면 "어린이입니다."를 20살 이상이면 "성인입니다."라는 메세지를 출력해주도록 한다.
+            생년월일이 지금보다 미래일 경우 "당신은 아직 태어나지 않았습니다." 라는 메세지를 출력한다.
+        */
+        const inp = document.querySelector(`input[type="date"]`);
+        const result = document.querySelector('#result');
+        const grades = [8, '초1', 9, '초2', 10, '초3', 11, '초4', 12, '초5', 13, '초6', 
+                        14, '중1', 15, '중2', 16, '중3', 17, '고1', 18, '고2', 19, '고3'];
+
+        inp.oninput = (e) => {
+            const now = new Date();
+            now.setHours(9, 0, 0, 0);             // 현재를 9시로 맞춘 날짜객체
+            const birth = new Date(inp.value);    // 태어난 날을 데이트 객체로
+            
+            if(birth >= now){
+                result.innerHTML = '당신은 아직 태어나지 않았습니다.';
+                return;
+            }
+
+            let str = `당신은 지금까지 ${(now - birth) / (24 * 3600 * 1000)}일을 살았고, `;
+            const age = now.getFullYear() - birth.getFullYear() + 1;
+            const idx = grades.indexOf(age);
+            if(idx > -1){
+                str += `${age}살 ${grades[idx + 1]}입니다.`;
+            } else {
+                if(age > 19){
+                    str += `${age}살 성인입니다.`;
+                } else {
+                    str += `${age}살 어린이입니다.`;
+                }
+            }
+            
+            // new Date(val), val은 input 태그의 value값을 넣으면 해당 날짜에 대한 객체가 만들어진다.
+
+            result.innerHTML = str;
+        }
+    </script>
+</body>
+
+</html>

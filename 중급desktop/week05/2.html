@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td{
+            width:50px;
+            height:50px;
+            border:1px solid black;
+            text-align:center;
+            transition: all 0.5s;
+        }
+        .change{
+            background-color:black;
+            transition: all 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="res">여기엔 현재 좌표가 나옵니다.</div>
+    <div>마우스가 빈 칸으로 올라가면 change 클래스가 추가된다.</div>
+    <div>마우스가 change인 칸으로 올라가면 change 클래스가 사라진다.</div>
+    <div>스페이스 바를 누르면 초기화됩니다.</div>
+    <div>방향키를 누르면 전체 네모가 이동합니다.</div>
+    <div>방향키로 움직이는 네모들은 만약 옆에 칸이 없다면 앞으로 넘어갑니다.</div>
+    <table>
+        <tbody></tbody>
+    </table>
+    <script>
+        const tbody = document.querySelector('tbody');
+        const res = document.querySelector('#res');
+        const tables = [];
+        
+        const size = 10;
+        for(let i = 0; i < size; i++){
+            const tr = document.createElement('tr');
+            tables.push([]);
+            for(let j = 0; j < size; j++){
+                const td = document.createElement('td');
+                td.dataset.x = j;
+                td.dataset.y = i;
+                tr.appendChild(td);
+                tables[i].push(td);
+            }
+            tbody.appendChild(tr);
+        };
+
+        tbody.onmouseover = e => {
+            if(e.target.nodeName === 'TD'){
+                res.innerHTML = `x : ${e.target.dataset.x}, y : ${e.target.dataset.y}`;
+                e.target.classList.toggle('change');
+            }
+        };
+
+        window.onkeydown = e => {
+            if(e.key === ' '){
+                const all = document.querySelectorAll('.change');
+                for(let i = 0; i < all.length; i++){
+                    all[i].classList.remove('change');
+                }
+            } else if(e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' ||e.key === 'ArrowRight'){
+                const all = document.querySelectorAll('.change');
+                let x = 0, y = 0;
+
+                for(let i = 0; i < all.length; i++){
+                    all[i].classList.remove('change');
+                }
+
+                if(e.key === 'ArrowLeft') x = -1;
+                else if(e.key === 'ArrowRight') x = 1;
+
+                if(e.key === 'ArrowUp') y = -1;
+                else if(e.key === 'ArrowDown') y = 1;
+
+                for(let i = 0; i < all.length; i++){
+                    const X = (Number(all[i].dataset.x) + x + 10) % 10;
+                    const Y = (Number(all[i].dataset.y) + y + 10) % 10;
+                    tables[Y][X].classList.add('change');
+                }
+            }
+        };
+    </script>
+</body>
+</html>

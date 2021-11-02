@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        div {
+            font-size: 24px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>버튼을 클릭하면 X가 양쪽 끝에 붙습니다. 맨 마지막과 중앙은 항상 O 입니다.</h1>
+    <div>
+        <button data-num="X"
+            onclick="this.innerHTML = `O${this.dataset.num}O${this.dataset.num}O`;
+                    this.dataset.num = this.dataset.num + 'X';">OOO</button>
+    </div>
+</body>
+
+</html>

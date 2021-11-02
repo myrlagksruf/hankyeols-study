@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        textarea{
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    찾을 글자 : <input type="text" required>
+    <div id="res"></div>
+    <textarea></textarea>
+    <script>
+        /*
+            글자 위치를 찾아주는 프로그램
+            textarea 태그에 입력한 문장들 중에서 "찾을 글자"에 입력한 글자를 찾으면 그 위치를 반환해준다.
+            힌트 : indexOf의 찾을 위치를 사용하거나, slice를 사용하기
+        */
+        const res = document.querySelector('#res');
+        const text = document.querySelector('textarea');
+        const input = document.querySelector('input');
+        const fun = () => {
+            if(input.validity.valid){
+                const val = input.value;
+                const str = text.value;
+                const arr = [];
+                for(let i = 0; i < str.length - val.length + 1; i++){
+                    const result = str.slice(i, i + val.length);
+                    if(val === result){
+                        arr.push(i);
+                    }
+                }
+                if(arr.length === 0){
+                    res.innerHTML = '없음';
+                } else {
+                    res.innerHTML = `${arr.join(', ')} 번째`;
+                }
+            }
+        };
+        text.oninput = fun;
+        input.oninput = fun;
+    </script>
+</body>
+</html>

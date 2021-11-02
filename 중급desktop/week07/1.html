@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .range {
+            position: absolute;
+            width: calc(100vmin - 10px);
+            -webkit-appearance: none;
+            left:50%;
+            top:50%;
+            background: #111;
+            outline: none;
+            border-radius: 15px;
+            transform: translate(-50%, -50%);
+        }
+        .range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: attr(data-color color);
+            cursor: pointer;
+            border: 4px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- input 태그의 range의 thumb을 움직이면 input태그의 각도가 달라진다.
+    각도는 -60도에서 60도로 바뀐다.
+    focusin 했을 경우 thumb의 색이 red로 바뀌는데 이때 dataset.color를 'red'로 바꾸면 바뀐다.
+    focusout 했을 경우 다시 원래대로 돌아온다. -->
+    <input data-color="#00fd0a" type="range" class="range" min="-60" max="60"
+        oninput="this.style.transform = `translate(-50%, -50%) rotate(${parseInt(this.value)}deg)`;"
+        onfocusin="this.dataset.color = 'red';"
+        onfocusout="this.dataset.color = '#00fd0a';">
+</body>
+
+</html>

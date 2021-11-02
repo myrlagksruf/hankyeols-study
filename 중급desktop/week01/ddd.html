@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS Custom Checkbox | Smiley</title>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    label {
+        position: relative;
+        width: 160px;
+        height: 80px;
+        cursor: pointer;
+    }
+    label input {
+        appearance: none;
+    }
+    label span {
+        position: absolute;
+        /* 체크되지 않았을 때 배경 */
+    }
+    label input:checked ~ span{
+        /* 체크 되었을 때 배경 */
+    }
+    label span i{
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 72px;
+        height: 72px;
+        background: #fff;
+        border-radius: 50%;
+        transition: 0.5s;
+    }
+    label input:checked ~ span i{
+        left: 84px;
+    }
+    label span i::before {
+        content: '';
+        position: absolute;
+        /* 찡그린 얼굴의 눈 */
+        transition: 0.5s;
+    }
+    label input:checked ~ span i::before  
+    {
+        /* 웃는 얼굴의 눈 */
+    }
+    label span i::after {
+        content: '';
+        position: absolute;
+        /* 찡그린 얼굴의 입 */
+        transition: 0.5s;
+    }
+    label input:checked ~ span i::after  {
+        /* 웃는 얼굴의 입 */
+    }
+</style>
+</head>
+<body>
+    <!-- 
+        쓰인 색 :
+            #fe0000
+            #fe000066
+            #05be05
+            #05be0566
+            #fff
+        
+        특별히 주의할 속성 :
+            boxshadow
+            left, top, bottom, right
+            background-color
+            border-radius
+     -->
+	<label>
+		<input type="checkbox">
+		<span>
+			<i></i>
+		</span>
+	</label>
+</body>
+</html>

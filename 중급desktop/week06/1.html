@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 3px solid black;
+        }
+
+        table td {
+            border: 1px solid white;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>블럭을 돌려보자!</h1>
+    <h5>왼쪽과 오른쪽 화살표를 눌러보세요</h5>
+    <table>
+        <tbody></tbody>
+    </table>
+    <script>
+        const tbody = document.querySelector('tbody');
+        const colorSet = ['white', 'red'];
+
+        let blockData = [
+            [1, 1, 1],
+            [0, 0, 1],
+            [0, 0, 0]
+        ];
+
+        for(let i = 0; i < 3; i++){
+            const tr = document.createElement('tr');
+            for(let j = 0; j < 3; j++){
+                const td = document.createElement('td');
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+
+        const render = () => {
+            const trs = tbody.children;
+            for(let i = 0; i < 3; i++){
+                for(let j = 0; j < 3; j++){
+                    trs[i].children[j].style.backgroundColor = colorSet[blockData[i][j]];
+                }
+            }
+        };
+
+        const rotate = (way) => {
+            const data = [];
+            for(let i = 0; i < 3; i++) data.push([]);
+            // 0, 0 -> -1, -1
+            for(let i = 0; i < 3; i++){
+                for(let j = 0; j < 3; j++){
+                    let x = -way * (i - 1) + 1;
+                    let y = way * (j - 1) + 1;
+                    data[y][x] = blockData[i][j];
+                }
+            }
+
+            return data;
+        };
+
+        document.onkeydown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                blockData = rotate(-1);
+                render();
+            } else if(e.key === 'ArrowRight'){
+                blockData = rotate(1);
+                render();
+            }
+        };
+
+        render();
+    </script>
+</body>
+
+</html>

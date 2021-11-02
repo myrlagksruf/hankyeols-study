@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="800" height="600"></canvas>
+    <script>
+        let cx = document.querySelector("canvas").getContext("2d");
+        let x = 400;
+        let y = 100;
+        function branch(length, angle, scale) {
+            cx.fillRect(0, 0, 1, length);
+            if (length < 8) return;
+            cx.save();
+            cx.translate(0, length);
+            cx.rotate(-angle);
+            branch(length * scale, angle, scale);
+            cx.rotate(2 * angle);
+            branch(length * scale, angle, scale);
+            cx.restore();
+        }
+        cx.translate(x, y);
+        let r = Math.PI / 200;
+        let t = 0;
+        const main = () => {
+            cx.clearRect(-x, -y, 800, 600);
+            branch(60, t, 0.8);
+            t += r;
+            requestAnimationFrame(main);
+        }
+        main();
+    </script>
+</body>
+</html>

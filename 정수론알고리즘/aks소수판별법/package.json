@@ -1,0 +1,14 @@
+{
+  "name": "aks-prime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "extra-bigint": "^0.0.57"
+  }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="800" height="900"></canvas>
+    <script>
+        let cx = document.querySelector("canvas").getContext("2d");
+        let x = 400;
+        let y = 100;
+        const c = Math.cos(Math.PI / 3);
+        const s = Math.sin(Math.PI / 3);
+
+        function drawTri(length, color='white'){
+            cx.beginPath();
+            cx.fillStyle = color;
+            cx.moveTo(0, 0);
+            cx.lineTo(-length * c, -length * s);
+            cx.lineTo(length * c, -length * s);
+            cx.closePath();
+            cx.fill();
+        }
+
+        function start(length, n = 1, color='white') {
+            cx.save();
+            cx.beginPath();
+            cx.fillStyle = 'black';
+            cx.moveTo(0, 0);
+            cx.lineTo(-length * c, length * s);
+            cx.lineTo(length * c, length * s);
+            cx.closePath();
+            cx.fill();
+            function branch(length, n){
+                if(n === 0) return;
+                cx.save();
+                drawTri(length, color);
+                cx.scale(0.5, 0.5);
+                cx.translate(2 * c * length, 0);
+                branch(length, n - 1);
+                cx.translate(-4 * c * length, 0);
+                branch(length, n - 1);
+                cx.translate(2 * c * length, -2 * s * length);
+                branch(length, n - 1);
+                cx.restore();
+            }
+            cx.scale(0.5, 0.5);
+            cx.translate(0, s * length * 2);
+            branch(length, n);
+            cx.restore();
+        }
+        cx.translate(x, y);
+        start(800, 6, 'red');
+    </script>
+</body>
+</html>

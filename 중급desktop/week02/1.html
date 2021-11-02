@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            border:none;
+            padding: 20px;
+            color:white;
+        }
+        #red{
+            background-color:red;
+        }
+        #blue{
+            background-color:blue;
+        }
+        #green{
+            background-color:green;
+        }
+    </style>
+</head>
+<body>
+    <button id="red" data-now="red" data-first="green" data-second="blue"
+            onclick="this.id = this.dataset.first;
+                     this.dataset.first = this.dataset.second;
+                     this.dataset.second = this.dataset.now;
+                     this.dataset.now = this.id;">이거 누르면 색이 바뀜</button>
+</body>
+</html>

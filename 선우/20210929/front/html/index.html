@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="../dist/index.js"></script>
+    <style>
+        #field.title + #form > div.title,
+        #field.price + #form > div.price,
+        #field.author + #form > div.author{
+            display: block;
+        }
+        #form > div{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <select id="field">
+        <option value="" selected hidden>검색 방법</option>
+        <option value="title">타이틀</option>
+        <option value="author">저자</option>
+        <option value="price">가격</option>
+    </select>
+    <div id="form">
+        <div class="title author">
+            <input type="text">
+        </div>
+        <div class="price">
+            <input type="number"> ~ <input type="number">
+        </div>
+    </div>
+    <button id="send-field">search!</button>
+</body>
+</html>

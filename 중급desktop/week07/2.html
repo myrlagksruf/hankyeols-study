@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin:0;
+            overflow: hidden;
+        }
+        div{
+            width:200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(to right, red 50%, blue 50% 100%);
+            animation-name:circle;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            transform: translate(0, 0) rotate(0);
+        }
+
+        @keyframes circle {
+            0%{
+                transform: translate(0, 0) rotate(0);
+            }
+            25%{
+                transform: translate(calc(100vw - 100%), 0) rotate(-360deg);
+            }
+            50%{
+                transform: translate(calc(100vw - 100%), calc(100vh - 100%)) rotate(-720deg);
+            }
+            75%{
+                transform: translate(0, calc(100vh - 100%)) rotate(-1080deg);
+            }
+            100%{
+                transform: translate(0, 0) rotate(-1440deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+</html>

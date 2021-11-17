@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CSS Creative Loader Animation Effects</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		section {
+			min-height: 100vh;
+			background: #042104;
+			/* 힌트 : flex 배치 및 animation */
+		}
+
+		@keyframes animateBg {
+			/* 힌트 : hue-rotate */
+		}
+
+		.loader {
+			position: relative;
+			width: 120px;
+			height: 120px;
+		}
+
+		.loader span {
+			position: absolute;
+			/* 힌트 width와 height %로 주기 */
+			/* 힌트 : rotate와 calc와 var(--i) 이용 */
+		}
+
+		.loader span:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			/* 힌트 : box-shadow 중복해서 주기 */
+			/* 힌트 : animation-delay와 calc와 var(--i) 이용*/
+		}
+
+		@keyframes animate {
+			/* 힌트 : scale */
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<div class="loader">
+			<!-- var(--i) 의 값을 CSS에서 사용하기 위해 만들어 놓은 것입니다. -->
+			<span style="--i:1;"></span>
+			<span style="--i:2;"></span>
+			<span style="--i:3;"></span>
+			<span style="--i:4;"></span>
+			<span style="--i:5;"></span>
+			<span style="--i:6;"></span>
+			<span style="--i:7;"></span>
+			<span style="--i:8;"></span>
+			<span style="--i:9;"></span>
+			<span style="--i:10;"></span>
+			<span style="--i:11;"></span>
+			<span style="--i:12;"></span>
+			<span style="--i:13;"></span>
+			<span style="--i:14;"></span>
+			<span style="--i:15;"></span>
+			<span style="--i:16;"></span>
+			<span style="--i:17;"></span>
+			<span style="--i:18;"></span>
+			<span style="--i:19;"></span>
+			<span style="--i:20;"></span>
+		</div>
+	</section>
+</body>
+</html>

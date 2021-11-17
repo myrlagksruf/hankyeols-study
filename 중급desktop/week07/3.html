@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th></th>
+            <th>발생</th>
+            <th>자식태그</th>
+            <th>기본동작</th>
+        </tr>
+        <tr>
+            <th>click</th>
+            <td>왼쪽 클릭</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>contextmenu</th>
+            <td>오른쪽 클릭</td>
+            <td>-</td>
+            <td>메뉴 열기</td>
+        </tr>
+        <tr>
+            <th>mousedown</th>
+            <td>마우스 버튼 누르기</td>
+            <td>-</td>
+            <td>휠 아이콘 생성</td>
+        </tr>
+        <tr>
+            <th>mouseup</th>
+            <td>마우스 버튼 떼기</td>
+            <td>-</td>
+            <td>뒤로 가기, 앞으로 가기</td>
+        </tr>
+        <tr>
+            <th>mousemove</th>
+            <td>마우스 움직이기</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>mouseenter</th>
+            <td>태그 안으로 들어가기</td>
+            <td>X</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>mouseover</th>
+            <td>태그 안으로 들어가기</td>
+            <td>O</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>mouseleave</th>
+            <td>태그 밖으로 나오기</td>
+            <td>X</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>mouseout</th>
+            <td>태그 밖으로 나오기</td>
+            <td>O</td>
+            <td>-</td>
+        </tr>
+    </table>
+    <script>
+        document.body.oncontextmenu = e => {
+            console.log(e);
+        }
+    </script>
+</body>
+</html>
